@@ -1,30 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:project_kobe_client/reducer.dart';
+import 'package:project_kobe_client/redux_state.dart';
 import 'package:redux/redux.dart';
 import 'package:redux_dev_tools/redux_dev_tools.dart';
 import 'package:redux_remote_devtools/redux_remote_devtools.dart';
+import 'actions.dart';
 
-// One simple action: Increment
-enum Actions { Increment }
-
-// The reducer, which takes the previous count and increments it in response
-// to an Increment action.
-int counterReducer(int state, dynamic action) {
-  if (action == Actions.Increment) {
-    return state + 1;
-  }
-
-  return state;
-}
-
-void main() {
+void main() async {
   // Create your store as a final variable in the main function or inside a
   // State object. This works better with Hot Reload than creating it directly
   // in the `build` function.
   var remoteDevtools = RemoteDevToolsMiddleware('localhost:8000');
-
-  final store =
-      Store<int>(counterReducer, initialState: 0, middleware: [remoteDevtools]);
+  final store = new DevToolsStore<AppState>(counterReducer,
+      initialState: AppState.initial(),
+      middleware: [
+        remoteDevtools,
+      ]);
 
   remoteDevtools.store = store;
   remoteDevtools.connect();
@@ -36,7 +28,7 @@ void main() {
 }
 
 class FlutterReduxApp extends StatelessWidget {
-  final Store<int> store;
+  final Store<AppState> store;
   final String title;
 
   FlutterReduxApp({Key key, this.store, this.title}) : super(key: key);
@@ -45,7 +37,7 @@ class FlutterReduxApp extends StatelessWidget {
   Widget build(BuildContext context) {
     // The StoreProvider should wrap your MaterialApp or WidgetsApp. This will
     // ensure all routes have access to the store.
-    return StoreProvider<int>(
+    return StoreProvider<AppState>(
       // Pass the store to the StoreProvider. Any ancestor `StoreConnector`
       // Widgets will find and use this value as the `Store`.
       store: store,
@@ -76,8 +68,8 @@ class FlutterReduxApp extends StatelessWidget {
                 // run through the reducer. After the reducer updates the state,
                 // the Widget will be automatically rebuilt with the latest
                 // count. No need to manually manage subscriptions or Streams!
-                StoreConnector<int, String>(
-                  converter: (store) => store.state.toString(),
+                StoreConnector<AppState, String>(
+                  converter: (store) => store.state.count.toString(),
                   builder: (context, count) {
                     return Text(
                       count,
@@ -93,11 +85,11 @@ class FlutterReduxApp extends StatelessWidget {
           // Action.
           //
           // Then, we'll pass this callback to the button's `onPressed` handler.
-          floatingActionButton: StoreConnector<int, VoidCallback>(
+          floatingActionButton: StoreConnector<AppState, VoidCallback>(
             converter: (store) {
               // Return a `VoidCallback`, which is a fancy name for a function
               // with no parameters. It only dispatches an Increment action.
-              return () => store.dispatch(Actions.Increment);
+              return () => store.dispatch(Increment(3));
             },
             builder: (context, callback) {
               return FloatingActionButton(
