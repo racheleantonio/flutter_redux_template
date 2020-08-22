@@ -1,0 +1,33 @@
+import 'package:meta/meta.dart';
+import 'package:json_annotation/json_annotation.dart';
+
+part of 'redux_state.dart';
+
+@immutable
+@JsonSerializable()
+class AppState {
+  AppState({
+    @required this.name,
+    @required this.count,
+  });
+
+  final String name;
+  final int count;
+
+  factory AppState.initial() {
+    return AppState(
+      name: "Antonio",
+      count: 0,
+    );
+  }
+
+  AppState copyWith({
+    String name,
+    int count,
+  }) {
+    return AppState(
+      name: name ?? this.name,
+      count: count ?? this.count,
+    );
+  }
+}
