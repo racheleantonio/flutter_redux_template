@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:project_kobe_client/actions.dart';
-import 'package:project_kobe_client/redux_state.dart';
+import 'package:flutter_redux_project/Widget/regions.dart';
+import 'package:flutter_redux_project/actions/actions.dart';
+import 'package:flutter_redux_project/reducers/AppReducer.dart';
 
 class SearchScreen extends StatelessWidget {
   SearchScreen({Key key}) : super(key: key);
@@ -18,18 +19,43 @@ class SearchScreen extends StatelessWidget {
       },
       builder: (BuildContext context, HomeScreenViewModel vm) {
         return Scaffold(
-          body: Center(
-            child: Column(
+          body: Container(
+            color: Color(0xff141526),
+            child:
+                //  Stack(children: <Widget>[Calabria, Basilicata]
+                Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
+                Stack(children: <Widget>[
+                  Calabria,
+                  Sicilia,
+                  Basilicata,
+                  ValleDAosta,
+                  Umbria,
+                  Toscana,
+                  Molise,
+                  Puglia,
+                  Liguria,
+                  Piemonte,
+                  Sicilia,
+                  Veneto,
+                  Lombardia,
+                  Campania,
+                  Emilia,
+                  Bolzano,
+                  Marche,
+                  Abbruzzo,
+                  Trento,
+                  Lazio,
+                  Friuli
+                ]),
                 Text(
                   "Hi " + vm.state.name + "!",
                 ),
                 Text(
-                  'You have pushed the button this many times:',
-                ),
-                Text(
-                  vm.state.count.toString(),
+                  'You pushed the button ' +
+                      vm.state.count.toString() +
+                      ' times.',
                 ),
                 TextField(
                   decoration: InputDecoration(
@@ -42,6 +68,7 @@ class SearchScreen extends StatelessWidget {
             ),
           ),
           floatingActionButton: FloatingActionButton(
+            backgroundColor: Color(0xff1cbfff),
             child: Icon(Icons.add),
             onPressed: () => vm.onTextChanged(3),
           ),

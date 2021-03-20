@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:project_kobe_client/actions.dart';
-import 'package:project_kobe_client/reducer.dart';
-import 'package:project_kobe_client/redux_state.dart';
-import 'package:project_kobe_client/screens/home.dart';
-import 'package:project_kobe_client/styles/style.dart';
+import 'package:flutter_redux_project/actions/actions.dart';
+import 'package:flutter_redux_project/reducers/AppReducer.dart';
+import 'package:flutter_redux_project/reducers/reducer.dart';
+import 'package:flutter_redux_project/screens/home.dart';
 import 'package:redux/redux.dart';
 import 'package:redux_dev_tools/redux_dev_tools.dart';
 import 'package:redux_remote_devtools/redux_remote_devtools.dart';
@@ -26,6 +25,8 @@ void main() async {
   runApp(FlutterReduxApp(
     store: store,
   ));
+
+  store.dispatch(Startup());
 }
 
 class FlutterReduxApp extends StatelessWidget {
@@ -43,6 +44,7 @@ class FlutterReduxApp extends StatelessWidget {
           theme: ThemeData(
             brightness: Brightness.dark,
             primarySwatch: Colors.grey,
+            // fontFamily: 'Gotham',
           ),
           home: SearchScreen()),
     );

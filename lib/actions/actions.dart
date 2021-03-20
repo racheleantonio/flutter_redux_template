@@ -17,3 +17,11 @@ class ChangeName {
     return {'payload': this.payload};
   }
 }
+
+class Startup {
+  Startup();
+
+  toJson() {
+    return {};
+  }
+}
